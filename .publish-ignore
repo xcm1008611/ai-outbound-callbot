@@ -1,0 +1,11 @@
+# 上传到 GitHub 时排除的路径（一行一个，# 是注释，支持通配符）
+# 由助手 2026-09-22 添加。
+#
+# 排除原因：
+#   *.sql / *.rar —— 数据库转储（单个 87MB + 13.6MB），属于数据不是源码；
+#   *.zip         —— SmartCall-master.zip 64MB，打包产物；
+#   *.jar         —— 第三方 skywalking agent 等二进制（28.8MB 起），应由构建/下载获得。
+*.sql
+*.rar
+*.zip
+*.jar

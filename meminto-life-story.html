@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create a Life Story Book from a lifetime of memories with guided questions, voice recordings, photos and video.">
+  <title>Life Story Book | Meminto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#f4efe4',
+            paper: '#fbf8f1',
+            forest: '#18342a',
+            moss: '#315245',
+            ink: '#23271f',
+            muted: '#6e7068',
+            clay: '#b9895a',
+            sand: '#e6dcc9',
+            sage: '#d8dfd4'
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif']
+          },
+          boxShadow: {
+            soft: '0 20px 50px rgba(35, 39, 31, 0.10)',
+            lift: '0 24px 60px rgba(35, 39, 31, 0.15)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root { color-scheme: light; }
+    html { scroll-behavior: smooth; }
+    body { background: #f4efe4; color: #23271f; }
+    section[id] { scroll-margin-top: 96px; }
+    body, button, a { letter-spacing: 0; }
+    ::selection { background: #315245; color: #fff; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .placeholder-noise {
+      background-color: #c9c7c0;
+      background-image: linear-gradient(135deg, rgba(255,255,255,.16) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.16) 50%, rgba(255,255,255,.16) 75%, transparent 75%);
+      background-size: 18px 18px;
+    }
+    .btn-press:active { transform: translateY(1px) scale(.985); }
+    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+    .faq-answer > div { overflow: hidden; }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-icon { transition: transform .3s ease; }
+    .book-shadow { box-shadow: -14px 22px 35px rgba(35,39,31,.22); }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-ink/10 bg-cream/95 backdrop-blur-md">
+    <div class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:h-[78px]">
+      <a href="#" class="group flex items-center gap-2" aria-label="Meminto home">
+        <span class="font-serif text-2xl italic text-forest transition-colors group-hover:text-moss">Meminto</span>
+        <span class="hidden text-[9px] font-bold uppercase leading-none text-muted sm:block">Stories</span>
+      </a>
+      <nav class="hidden items-center gap-7 text-sm font-medium text-ink lg:flex" aria-label="Main navigation">
+        <a class="transition-colors hover:text-moss" href="#how-it-works">How it works</a>
+        <a class="transition-colors hover:text-moss" href="#features">Features</a>
+        <a class="transition-colors hover:text-moss" href="#reviews">Reviews</a>
+        <a class="transition-colors hover:text-moss" href="#pricing">Pricing</a>
+        <a class="transition-colors hover:text-moss" href="#faq">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="#pricing" class="btn-press hidden border border-forest px-5 py-3 text-sm font-semibold text-forest transition-all hover:-translate-y-0.5 hover:bg-forest hover:text-white sm:inline-flex">Start your book</a>
+        <button id="menuButton" class="flex h-11 w-11 items-center justify-center border border-forest/20 text-forest lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg id="menuIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="hidden border-t border-ink/10 bg-paper lg:hidden">
+      <nav class="mx-auto grid max-w-7xl px-5 py-5 text-base font-medium" aria-label="Mobile navigation">
+        <a class="border-b border-ink/10 py-3" href="#how-it-works">How it works</a>
+        <a class="border-b border-ink/10 py-3" href="#features">Features</a>
+        <a class="border-b border-ink/10 py-3" href="#reviews">Reviews</a>
+        <a class="border-b border-ink/10 py-3" href="#pricing">Pricing</a>
+        <a class="py-3" href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 01 Breadcrumb -->
+    <nav class="border-b border-ink/10 bg-paper/60" aria-label="Breadcrumb">
+      <ol class="mx-auto flex max-w-7xl items-center gap-2 px-5 py-4 text-xs text-muted sm:px-8 sm:text-sm">
+        <li><a href="#" class="hover:text-forest">Home</a></li>
+        <li aria-hidden="true">›</li>
+        <li><a href="#" class="hover:text-forest">Memory books</a></li>
+        <li aria-hidden="true">›</li>
+        <li class="text-ink" aria-current="page">Life Story Book</li>
+      </ol>
+    </nav>
+
+    <!-- 02 Hero -->
+    <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+      <div class="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.08fr_.92fr] lg:gap-16">
+        <div class="reveal">
+          <div class="mb-7 flex items-center justify-between gap-5">
+            <p class="inline-flex border border-clay/35 px-4 py-2 font-serif text-xs font-bold uppercase text-forest">A guided life story book</p>
+            <!-- Replace this compact mobile placeholder with a real book thumbnail -->
+            <div class="placeholder-noise book-shadow h-20 w-14 shrink-0 -rotate-6 border-l-[5px] border-[#92938d] sm:hidden" aria-label="Life Story Book thumbnail placeholder" role="img"></div>
+          </div>
+          <h1 class="max-w-3xl font-serif text-[clamp(2.75rem,6vw,5.35rem)] leading-[.99] text-forest">
+            Turn a lifetime of memories into a <em class="text-[#8b641c]">Life Story Book</em> your family can hold.
+          </h1>
+          <p class="mt-7 max-w-2xl text-base leading-8 text-muted sm:text-lg">The questions you keep meaning to ask can become the stories your family keeps. Meminto guides a parent, grandparent—or you—through a lifetime of memories and turns every answer into a personal printed book.</p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="#" class="btn-press inline-flex min-h-14 items-center justify-center gap-3 bg-forest px-7 text-sm font-bold text-white transition-all hover:-translate-y-1 hover:bg-moss hover:shadow-soft">Give a Life Story Book <span aria-hidden="true">→</span></a>
+            <a href="#" class="btn-press inline-flex min-h-14 items-center justify-center border border-forest px-7 text-sm font-bold text-forest transition-all hover:-translate-y-1 hover:bg-forest hover:text-white">Create my Life Story Book</a>
+          </div>
+          <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted sm:text-sm">
+            <span>One-time purchase · no subscription</span>
+            <span class="hidden text-ink/30 sm:inline">·</span>
+            <span>From $99</span>
+          </div>
+          <div class="mt-4 flex items-center gap-3 text-sm">
+            <strong class="font-semibold">Excellent</strong>
+            <span class="text-[#a87523]" aria-label="5 out of 5 stars">★★★★★</span>
+            <strong>4.8</strong>
+            <span class="text-muted">Trustpilot</span>
+          </div>
+        </div>
+        <!-- Replace this gray placeholder composition with the real hero product image -->
+        <div class="reveal relative mx-auto h-[410px] w-full max-w-[520px] sm:h-[520px] lg:h-[600px]" aria-label="Life Story Book product image placeholder" role="img">
+          <div class="absolute inset-x-2 bottom-2 h-[66%] bg-[#dedbd3]"></div>
+          <div class="placeholder-noise book-shadow absolute bottom-[8%] left-[6%] h-[64%] w-[35%] -rotate-6 border-l-[10px] border-[#9b9b95]"></div>
+          <div class="placeholder-noise book-shadow absolute bottom-[6%] left-[32%] h-[73%] w-[43%] border-l-[12px] border-[#8d8e88]"></div>
+          <div class="placeholder-noise book-shadow absolute bottom-[12%] right-[2%] h-[60%] w-[34%] rotate-6 border-l-[10px] border-[#a7a69f]"></div>
+          <div class="absolute right-0 top-[12%] w-44 bg-paper p-4 shadow-soft">
+            <div class="mb-3 h-2 w-16 bg-forest/30"></div>
+            <div class="h-2 w-full bg-ink/15"></div>
+            <div class="mt-2 h-2 w-4/5 bg-ink/15"></div>
+          </div>
+          <div class="absolute bottom-[2%] left-[1%] w-40 bg-paper p-4 shadow-soft">
+            <div class="flex h-8 items-end gap-1" aria-hidden="true">
+              <span class="h-3 w-1 bg-clay"></span><span class="h-6 w-1 bg-clay"></span><span class="h-4 w-1 bg-clay"></span><span class="h-8 w-1 bg-clay"></span><span class="h-5 w-1 bg-clay"></span><span class="h-7 w-1 bg-clay"></span><span class="h-4 w-1 bg-clay"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mx-auto mt-14 max-w-7xl px-5 sm:px-8">
+        <ul class="grid border-y border-ink/15 py-5 text-sm font-medium text-forest sm:grid-cols-2 lg:grid-cols-4">
+          <li class="flex items-center gap-3 py-2"><span aria-hidden="true">✓</span> Matte 5.8 × 8.3-inch hardcover</li>
+          <li class="flex items-center gap-3 py-2"><span aria-hidden="true">✓</span> iOS and Android app</li>
+          <li class="flex items-center gap-3 py-2"><span aria-hidden="true">✓</span> Answer by phone as well</li>
+          <li class="flex items-center gap-3 py-2"><span aria-hidden="true">✓</span> Text, voice and video</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 03 Concept introduction -->
+    <section class="bg-forest py-24 text-white sm:py-32">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal grid items-start gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-24">
+          <div>
+            <p class="mb-5 text-xs font-bold uppercase text-sage">Before the stories fade</p>
+            <h2 class="font-serif text-4xl leading-tight sm:text-5xl">A memoir becomes possible <em class="text-[#d6b47b]">one story at a time.</em></h2>
+          </div>
+          <div class="space-y-6 text-base leading-8 text-white/75 sm:text-lg">
+            <p>A Life Story Book helps a person record the story of their life through thoughtful prompts about childhood, family, work, love, beliefs and defining moments.</p>
+            <p>There is no blank page to fear. A parent, grandparent—or you—can answer in their own time by typing, speaking, recording a video or even making a phone call. Photos, words and original voices are then shaped into chapters and printed as a personal hardcover book.</p>
+          </div>
+        </div>
+        <!-- Replace with a real family storytelling image -->
+        <div class="placeholder-noise reveal mt-16 aspect-[16/6] min-h-[260px] w-full bg-[#7d827d]" aria-label="Family storytelling image placeholder" role="img"></div>
+      </div>
+    </section>
+
+    <!-- 04 Media logos -->
+    <section class="border-b border-ink/10 bg-paper py-10">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <p class="mb-8 text-center text-[11px] font-bold uppercase text-muted">Featured in</p>
+        <div class="grid grid-cols-2 items-center gap-8 text-center text-ink/45 sm:grid-cols-4">
+          <div class="font-serif text-xl font-bold sm:text-2xl">USA TODAY</div>
+          <div class="text-2xl font-black sm:text-3xl">FOX</div>
+          <div class="font-serif text-2xl font-bold italic sm:text-3xl">yahoo!</div>
+          <div class="text-lg font-black tracking-wide sm:text-xl">CBS AUSTIN</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 How it works -->
+    <section id="how-it-works" class="py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal mx-auto max-w-3xl text-center">
+          <p class="mb-4 text-xs font-bold uppercase text-clay">Four gentle steps</p>
+          <h2 class="font-serif text-4xl leading-tight text-forest sm:text-6xl">How it works</h2>
+          <p class="mt-5 text-base leading-8 text-muted sm:text-lg">The process is guided from the first question to the moment your family opens the finished book.</p>
+        </div>
+        <div class="mt-16 space-y-16 sm:mt-20 sm:space-y-24">
+          <article class="reveal grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+            <!-- Replace with real Step 1 image -->
+            <div class="placeholder-noise aspect-[4/3] bg-[#c5c5bf]" aria-label="Question selection image placeholder" role="img"></div>
+            <div>
+              <span class="font-serif text-6xl text-clay/45">01</span>
+              <h3 class="mt-3 font-serif text-3xl text-forest sm:text-4xl">Choose the questions</h3>
+              <p class="mt-5 max-w-xl leading-8 text-muted">Start with hundreds of carefully written questions, organized around every season of life. Edit, skip or write your own so the book feels entirely personal.</p>
+            </div>
+          </article>
+          <article class="reveal grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+            <!-- Replace with real Step 2 image -->
+            <div class="placeholder-noise aspect-[4/3] bg-[#bfc2bd] lg:order-2" aria-label="Weekly question image placeholder" role="img"></div>
+            <div class="lg:order-1">
+              <span class="font-serif text-6xl text-clay/45">02</span>
+              <h3 class="mt-3 font-serif text-3xl text-forest sm:text-4xl">A question arrives</h3>
+              <p class="mt-5 max-w-xl leading-8 text-muted">Questions arrive at a comfortable weekly rhythm. Answer in the app, by email or over the phone—by typing, talking, adding photos or recording a video.</p>
+            </div>
+          </article>
+          <article class="reveal grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+            <!-- Replace with real Step 3 image -->
+            <div class="placeholder-noise aspect-[4/3] bg-[#c8c6c0]" aria-label="Book chapter editing image placeholder" role="img"></div>
+            <div>
+              <span class="font-serif text-6xl text-clay/45">03</span>
+              <h3 class="mt-3 font-serif text-3xl text-forest sm:text-4xl">Answers become chapters</h3>
+              <p class="mt-5 max-w-xl leading-8 text-muted">Each answer becomes part of the book. Arrange chapters, add photographs, choose a layout and preview every page before your matte hardcover is printed.</p>
+            </div>
+          </article>
+          <article class="reveal grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+            <!-- Replace with real Step 4 image -->
+            <div class="placeholder-noise aspect-[4/3] bg-[#bebfba] lg:order-2" aria-label="Family reading image placeholder" role="img"></div>
+            <div class="lg:order-1">
+              <span class="font-serif text-6xl text-clay/45">04</span>
+              <h3 class="mt-3 font-serif text-3xl text-forest sm:text-4xl">The family reads, hears and sees</h3>
+              <p class="mt-5 max-w-xl leading-8 text-muted">QR codes in the printed pages play the original voice and video recordings. The ebook can be shared around the world, so everyone can keep the story close.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Features -->
+    <section id="features" class="bg-paper py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal max-w-3xl">
+          <p class="mb-4 text-xs font-bold uppercase text-clay">Made for every storyteller</p>
+          <h2 class="font-serif text-4xl leading-tight text-forest sm:text-6xl">Telling stories has never been easier.</h2>
+        </div>
+        <div class="mt-16 grid gap-x-12 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+          <article class="reveal group border-t border-ink/20 pt-7 transition-transform hover:-translate-y-1">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center bg-sage text-forest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8"/></svg></div>
+            <h3 class="font-serif text-2xl text-forest">Speech-to-text</h3>
+            <p class="mt-3 leading-7 text-muted">Speak naturally in many languages. Every recording is transcribed into editable text while the original audio stays safe.</p>
+          </article>
+          <article class="reveal group border-t border-ink/20 pt-7 transition-transform hover:-translate-y-1">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center bg-[#eadac8] text-forest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.62a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.28-1.28a2 2 0 0 1 2.11-.45c.84.29 1.72.5 2.62.62A2 2 0 0 1 22 16.92Z"/></svg></div>
+            <h3 class="font-serif text-2xl text-forest">Storytelling by phone</h3>
+            <p class="mt-3 leading-7 text-muted">No app and no typing required. Call a familiar phone number, hear the prompt and tell the story aloud.</p>
+          </article>
+          <article class="reveal group border-t border-ink/20 pt-7 transition-transform hover:-translate-y-1">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center bg-[#d6dbe1] text-forest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3"/></svg></div>
+            <h3 class="font-serif text-2xl text-forest">Audio &amp; video QR</h3>
+            <p class="mt-3 leading-7 text-muted">A book you can listen to. Scan a discreet code on the page to hear a laugh, a voice or watch the original video.</p>
+          </article>
+          <article class="reveal group border-t border-ink/20 pt-7 transition-transform hover:-translate-y-1">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center bg-[#e2dac7] text-forest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16"/><path d="M7 8h10M7 12h7M7 16h4"/></svg></div>
+            <h3 class="font-serif text-2xl text-forest">Simple View</h3>
+            <p class="mt-3 leading-7 text-muted">One question at a time in a calm, uncluttered interface—especially helpful for people who prefer fewer controls.</p>
+          </article>
+          <article class="reveal group border-t border-ink/20 pt-7 transition-transform hover:-translate-y-1">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center bg-[#dce2d6] text-forest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="m12 3-1.6 4.4L6 9l4.4 1.6L12 15l1.6-4.4L18 9l-4.4-1.6L12 3Z"/><path d="m5 15-.8 2.2L2 18l2.2.8L5 21l.8-2.2L8 18l-2.2-.8L5 15ZM19 13l-.8 2.2L16 16l2.2.8L19 19l.8-2.2L22 16l-2.2-.8L19 13Z"/></svg></div>
+            <h3 class="font-serif text-2xl text-forest">AI tools</h3>
+            <p class="mt-3 leading-7 text-muted">Gently improve grammar, structure and flow without changing the storyteller’s meaning or personal voice.</p>
+          </article>
+          <article class="reveal group border-t border-ink/20 pt-7 transition-transform hover:-translate-y-1">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center bg-[#ead6ce] text-forest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h3 class="font-serif text-2xl text-forest">Collaboration</h3>
+            <p class="mt-3 leading-7 text-muted">Invite family members to contribute questions, photographs and different voices to the same shared book.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 Example questions -->
+    <section class="py-24 sm:py-32">
+      <div class="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:gap-24">
+        <div class="reveal lg:sticky lg:top-32 lg:self-start">
+          <p class="mb-4 text-xs font-bold uppercase text-clay">Questions about your life</p>
+          <h2 class="font-serif text-4xl leading-tight text-forest sm:text-5xl">You do not have to think of a question. Meminto asks them for you.</h2>
+          <p class="mt-6 leading-8 text-muted">Every prompt can be edited, skipped or replaced. Add your own questions whenever a family story deserves more room.</p>
+        </div>
+        <div class="reveal divide-y divide-ink/15 border-y border-ink/15">
+          <p class="py-7 font-serif text-2xl leading-snug text-forest sm:text-3xl">How did your parents choose your name?</p>
+          <p class="py-7 font-serif text-2xl leading-snug text-forest sm:text-3xl">What is your favourite childhood memory?</p>
+          <p class="py-7 font-serif text-2xl leading-snug text-forest sm:text-3xl">Where did you play until it got dark?</p>
+          <p class="py-7 font-serif text-2xl leading-snug text-forest sm:text-3xl">Who shaped the person you became?</p>
+          <p class="py-7 font-serif text-2xl leading-snug text-forest sm:text-3xl">What did love teach you?</p>
+          <p class="py-7 font-serif text-2xl leading-snug text-forest sm:text-3xl">Which family tradition should never be forgotten?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 Testimonials -->
+    <section id="reviews" class="bg-[#dde1d7] py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal mx-auto max-w-3xl text-center">
+          <p class="mb-4 text-xs font-bold uppercase text-moss">Stories already held</p>
+          <h2 class="font-serif text-4xl leading-tight text-forest sm:text-6xl">They started with one question. Now they hold the story.</h2>
+        </div>
+        <div class="mt-14 grid gap-5 lg:grid-cols-3">
+          <figure class="reveal bg-paper p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lift sm:p-9">
+            <div class="mb-6 text-[#9b722f]" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="font-serif text-xl leading-8 text-forest">“My father never considered himself a writer. Speaking into the phone made it natural, and suddenly we had stories I had never heard before.”</blockquote>
+            <figcaption class="mt-8 border-t border-ink/10 pt-5 text-sm"><strong class="block">Emily R.</strong><span class="text-muted">United States</span></figcaption>
+          </figure>
+          <figure class="reveal bg-paper p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lift sm:p-9">
+            <div class="mb-6 text-[#9b722f]" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="font-serif text-xl leading-8 text-forest">“The weekly questions gave Mum just enough time to remember. The QR recordings make the book feel alive for all of us.”</blockquote>
+            <figcaption class="mt-8 border-t border-ink/10 pt-5 text-sm"><strong class="block">Sarah T.</strong><span class="text-muted">United Kingdom</span></figcaption>
+          </figure>
+          <figure class="reveal bg-paper p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lift sm:p-9">
+            <div class="mb-6 text-[#9b722f]" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="font-serif text-xl leading-8 text-forest">“Three generations added photos and memories from different countries. The finished hardcover is now our most treasured family book.”</blockquote>
+            <figcaption class="mt-8 border-t border-ink/10 pt-5 text-sm"><strong class="block">Daniel K.</strong><span class="text-muted">Australia</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 Product preview -->
+    <section class="bg-paper py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal grid items-center gap-14 lg:grid-cols-2 lg:gap-24">
+          <!-- Replace with real hardcover product gallery -->
+          <div class="relative min-h-[470px] bg-[#dedbd3] p-8 sm:min-h-[580px]" aria-label="Hardcover book product image placeholder" role="img">
+            <div class="placeholder-noise book-shadow absolute bottom-[12%] left-[12%] h-[65%] w-[42%] -rotate-6 border-l-[12px] border-[#969790]"></div>
+            <div class="placeholder-noise book-shadow absolute bottom-[10%] right-[11%] h-[72%] w-[44%] rotate-3 border-l-[12px] border-[#868780]"></div>
+            <div class="absolute bottom-[5%] left-[24%] right-[20%] h-8 bg-ink/10 blur-xl"></div>
+          </div>
+          <div>
+            <p class="mb-4 text-xs font-bold uppercase text-clay">Made to be kept</p>
+            <h2 class="font-serif text-4xl leading-tight text-forest sm:text-6xl">Look inside before you decide.</h2>
+            <p class="mt-6 text-lg leading-8 text-muted">A beautifully printed matte hardcover in a comfortable 5.8 × 8.3-inch format. Choose from multiple cover and page templates, then combine text, photographs, audio and video in one personal edition.</p>
+            <ul class="mt-8 space-y-4 text-sm font-medium text-forest sm:text-base">
+              <li class="flex gap-3"><span aria-hidden="true">✓</span> Premium matte hardcover and quality paper</li>
+              <li class="flex gap-3"><span aria-hidden="true">✓</span> Flexible photo-led and text-led page layouts</li>
+              <li class="flex gap-3"><span aria-hidden="true">✓</span> QR codes for original audio and video</li>
+              <li class="flex gap-3"><span aria-hidden="true">✓</span> Optional presentation gift box</li>
+            </ul>
+            <a href="#" class="btn-press mt-9 inline-flex min-h-14 items-center justify-center border border-forest px-7 text-sm font-bold text-forest transition-all hover:-translate-y-1 hover:bg-forest hover:text-white">View a sample book <span class="ml-3" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="reveal mt-12 grid grid-cols-3 gap-3 sm:gap-6">
+          <!-- Replace these three placeholders with layout previews -->
+          <div class="placeholder-noise aspect-[4/3] bg-[#c8c7c1]" aria-label="Page layout image placeholder" role="img"></div>
+          <div class="placeholder-noise aspect-[4/3] bg-[#bfc0bb]" aria-label="Page layout image placeholder" role="img"></div>
+          <div class="placeholder-noise aspect-[4/3] bg-[#cdcbc5]" aria-label="Gift box image placeholder" role="img"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 Pricing -->
+    <section id="pricing" class="py-24 sm:py-32">
+      <div class="mx-auto max-w-5xl px-5 sm:px-8">
+        <div class="reveal overflow-hidden bg-forest text-white shadow-soft">
+          <div class="grid lg:grid-cols-[.95fr_1.05fr]">
+            <div class="border-b border-white/15 p-8 sm:p-12 lg:border-b-0 lg:border-r">
+              <p class="text-xs font-bold uppercase text-sage">Life Story Book</p>
+              <div class="mt-6 flex items-end gap-3">
+                <span class="font-serif text-7xl">$99</span>
+                <span class="pb-3 text-white/60">starting price</span>
+              </div>
+              <p class="mt-5 text-lg text-white/75">One purchase. No subscription.</p>
+            </div>
+            <div class="p-8 sm:p-12">
+              <h2 class="font-serif text-3xl sm:text-4xl">Everything the story needs.</h2>
+              <ul class="mt-7 space-y-4 text-white/80">
+                <li class="flex gap-3"><span class="text-[#d6b47b]">✓</span> Up to two years to complete the book</li>
+                <li class="flex gap-3"><span class="text-[#d6b47b]">✓</span> Questions, editor, audio, video and collaboration</li>
+                <li class="flex gap-3"><span class="text-[#d6b47b]">✓</span> Hardcover book ready for your family</li>
+                <li class="flex gap-3"><span class="text-[#d6b47b]">✓</span> 30-day money-back guarantee</li>
+              </ul>
+              <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a href="#" class="btn-press inline-flex min-h-14 items-center justify-center bg-paper px-6 text-sm font-bold text-forest transition-all hover:-translate-y-1 hover:bg-[#e9ddc8]">Give as a gift</a>
+                <a href="#" class="btn-press inline-flex min-h-14 items-center justify-center border border-white/50 px-6 text-sm font-bold text-white transition-all hover:-translate-y-1 hover:bg-white hover:text-forest">Create my book</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 Trust guarantees -->
+    <section class="border-y border-ink/10 bg-paper py-24 sm:py-28">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal text-center">
+          <p class="mb-4 text-xs font-bold uppercase text-clay">Our promise</p>
+          <h2 class="font-serif text-4xl text-forest sm:text-5xl">You take no risk. Promise.</h2>
+        </div>
+        <div class="mt-14 grid gap-10 md:grid-cols-3">
+          <article class="reveal text-center md:border-r md:border-ink/10 md:px-8">
+            <div class="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-sage text-forest"><span class="text-xl" aria-hidden="true">30</span></div>
+            <h3 class="font-serif text-2xl text-forest">30-day money-back guarantee</h3>
+            <p class="mt-4 leading-7 text-muted">Try Meminto calmly. If it is not right for you, request a refund within 30 days.</p>
+          </article>
+          <article class="reveal text-center md:border-r md:border-ink/10 md:px-8">
+            <div class="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#eadac8] text-forest"><span class="text-xl" aria-hidden="true">∞</span></div>
+            <h3 class="font-serif text-2xl text-forest">Your stories are yours</h3>
+            <p class="mt-4 leading-7 text-muted">Your memories remain yours. Download recordings whenever you wish and keep them permanently.</p>
+          </article>
+          <article class="reveal text-center md:px-8">
+            <div class="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#d7dce0] text-forest"><span class="text-xl" aria-hidden="true">?</span></div>
+            <h3 class="font-serif text-2xl text-forest">Human support</h3>
+            <p class="mt-4 leading-7 text-muted">A real support team is here to help until your finished book is ready to print.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 FAQ -->
+    <section id="faq" class="py-24 sm:py-32">
+      <div class="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+        <div class="reveal">
+          <p class="mb-4 text-xs font-bold uppercase text-clay">Frequently asked</p>
+          <h2 class="font-serif text-4xl leading-tight text-forest sm:text-5xl">Everything you need to know about creating a Life Story Book</h2>
+        </div>
+        <div class="reveal divide-y divide-ink/15 border-y border-ink/15">
+          <article class="faq-item open">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="true"><span>What is a Life Story Book?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">It is a guided memoir created from personal answers, photographs, voice and video. Meminto provides the prompts and tools, then turns the finished material into a printed hardcover book.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>Who is the Meminto Life Story Book for?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">It works beautifully for parents, grandparents and anyone who wants to preserve their own story. It can be created as a gift or started for yourself.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>Do I need to be a good writer?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">Not at all. You can simply speak as if talking to family. Speech-to-text and optional AI tools help with grammar and flow while preserving your meaning and voice.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>Can someone answer by phone?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">Yes. The storyteller can call a dedicated number, hear the current question and record an answer without using a computer or smartphone app.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>What does the printed Life Story Book look like?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">The book is a premium matte hardcover in a 5.8 × 8.3-inch format. You choose the cover and page layouts, place photographs and review the complete preview before printing.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>How much does a Life Story Book cost?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">Prices start at $99 as a one-time purchase. There is no subscription, and you can take up to two years to finish your project.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>Does Meminto ship worldwide?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">Yes. Finished books can be shipped internationally. Delivery times and shipping costs depend on the destination and order quantity.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>How is Meminto different from other life story services?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">Meminto combines flexible questions, phone answering, speech-to-text, collaboration, audio and video QR codes, a full book editor and printed hardcover production in one guided process.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <h3><button class="faq-trigger flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-xl text-forest" aria-expanded="false"><span>Can I use Meminto in a browser and is there an app?</span><span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center text-2xl" aria-hidden="true">+</span></button></h3>
+            <div class="faq-answer"><div><p class="max-w-2xl pb-7 leading-7 text-muted">Yes. Use the complete experience in a modern web browser, or answer and manage stories with the iOS and Android apps.</p></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 Final CTA -->
+    <section class="bg-[#d9c6a7] py-24 sm:py-32">
+      <div class="reveal mx-auto max-w-5xl px-5 text-center sm:px-8">
+        <p class="mb-5 text-xs font-bold uppercase text-forest/70">One question is enough to begin</p>
+        <h2 class="font-serif text-4xl leading-tight text-forest sm:text-6xl lg:text-7xl">The story does not need to be finished. It only needs to begin.</h2>
+        <p class="mx-auto mt-7 max-w-2xl text-lg leading-8 text-forest/70">Give someone you love the space to remember, or begin preserving your own life story today.</p>
+        <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+          <a href="#" class="btn-press inline-flex min-h-14 items-center justify-center bg-forest px-8 text-sm font-bold text-white transition-all hover:-translate-y-1 hover:bg-moss hover:shadow-soft">Give a Life Story Book <span class="ml-3" aria-hidden="true">→</span></a>
+          <a href="#" class="btn-press inline-flex min-h-14 items-center justify-center border border-forest px-8 text-sm font-bold text-forest transition-all hover:-translate-y-1 hover:bg-forest hover:text-white">Create my Life Story Book</a>
+        </div>
+        <p class="mt-5 text-sm text-forest/60">From $99 · one-time purchase · 30-day guarantee</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 14 Footer -->
+  <footer class="bg-forest py-14 text-white/70">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="grid gap-10 border-b border-white/15 pb-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <a href="#" class="font-serif text-2xl italic text-white">Meminto <span class="text-sm not-italic text-white/60">Stories</span></a>
+          <p class="mt-4 max-w-xs text-sm leading-6">Stories that can be read, heard and held for generations.</p>
+        </div>
+        <nav aria-label="Memory books"><h2 class="mb-4 text-sm font-bold text-white">Memory books</h2><ul class="space-y-3 text-sm"><li><a href="#" class="hover:text-white">Life Story Book</a></li><li><a href="#" class="hover:text-white">Family Yearbook</a></li><li><a href="#" class="hover:text-white">Book for Mom &amp; Dad</a></li></ul></nav>
+        <nav aria-label="Company"><h2 class="mb-4 text-sm font-bold text-white">Company</h2><ul class="space-y-3 text-sm"><li><a href="#" class="hover:text-white">About us</a></li><li><a href="#how-it-works" class="hover:text-white">How it works</a></li><li><a href="#reviews" class="hover:text-white">Reviews</a></li></ul></nav>
+        <nav aria-label="Support"><h2 class="mb-4 text-sm font-bold text-white">Support</h2><ul class="space-y-3 text-sm"><li><a href="#" class="hover:text-white">Help</a></li><li><a href="#faq" class="hover:text-white">FAQ</a></li><li><a href="#" class="hover:text-white">My account</a></li></ul></nav>
+      </div>
+      <div class="flex flex-col gap-4 pt-7 text-xs sm:flex-row sm:items-center sm:justify-between">
+        <p>© 2026 Meminto Stories. All rights reserved.</p>
+        <div class="flex flex-wrap gap-5"><a href="#" class="hover:text-white">Privacy</a><a href="#" class="hover:text-white">Terms</a><a href="#" class="hover:text-white">Shipping</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile navigation
+    const menuButton = document.getElementById('menuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!open));
+      mobileMenu.classList.toggle('hidden');
+      menuButton.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.faq-item');
+        const willOpen = !item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(other => {
+          other.classList.remove('open');
+          other.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+        });
+        if (willOpen) {
+          item.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Scroll reveal with reduced-motion fallback handled in CSS
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
+    document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+  </script>
+</body>
+</html>

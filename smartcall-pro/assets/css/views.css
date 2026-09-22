@@ -1,0 +1,660 @@
+/* SmartCall Pro - Apple Pro View & Interactive Component Styles
+ * macOS & iOS Pro Aesthetics: Frosted Phone Frame, Elegant Chat Bubbles, Apple Kanban, Clean Radar & Modals
+ */
+
+/* ==========================================================================
+   1. AI Simulator (拟真呼叫体验舱)
+   ========================================================================== */
+.sim-container {
+  display: grid;
+  grid-template-columns: 360px 1fr 340px;
+  gap: 20px;
+  min-height: calc(100vh - var(--header-height) - 70px);
+}
+
+/* Apple iPhone Titanium Phone Frame */
+.sim-phone-frame {
+  background: #1c1c1e;
+  border-radius: 46px;
+  padding: 16px 14px;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 2px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  height: 640px;
+  position: relative;
+}
+
+/* Dynamic Island */
+.phone-island {
+  width: 110px;
+  height: 24px;
+  background: #000000;
+  border-radius: 20px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.island-camera {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1c1c1e;
+  box-shadow: inset 0 0 2px rgba(0, 113, 227, 0.5);
+}
+
+.phone-screen {
+  flex: 1;
+  background: linear-gradient(180deg, #2c2c2e 0%, #1c1c1e 100%);
+  border-radius: 34px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 18px;
+  color: #ffffff;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.caller-avatar-glow {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff2d55 0%, #0071e3 100%);
+  margin: 18px auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 8px 24px rgba(255, 45, 85, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+
+.caller-avatar-glow.pulsing::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 45, 85, 0.6);
+  animation: pulseAvatar 1.8s var(--ease-apple) infinite;
+}
+
+@keyframes pulseAvatar {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.caller-name {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3px;
+  letter-spacing: -0.3px;
+}
+
+.caller-title {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.call-timer-display {
+  font-size: 22px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Mono", monospace;
+  font-weight: 600;
+  text-align: center;
+  color: #34c759;
+  margin-bottom: 16px;
+}
+
+.phone-realtime-subtitles {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 14px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sim-phone-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 8px;
+}
+
+.phone-round-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.phone-round-btn:hover { transform: scale(1.08); }
+.phone-round-btn:active { transform: scale(0.96); }
+
+.phone-round-btn.hangup {
+  background: #ff3b30;
+  box-shadow: 0 4px 14px rgba(255, 59, 48, 0.4);
+}
+
+.phone-round-btn.mute {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.phone-round-btn.transfer {
+  background: #0071e3;
+  box-shadow: 0 4px 14px rgba(0, 113, 227, 0.4);
+}
+
+/* Mid Column: Real-time Dialog & Trace */
+.sim-dialog-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dialog-stream-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fafafc;
+}
+
+/* Apple iMessage Style Chat Bubbles */
+.chat-msg {
+  display: flex;
+  gap: 12px;
+  max-width: 85%;
+}
+
+.chat-msg-robot {
+  align-self: flex-start;
+}
+
+.chat-msg-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-bubble {
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  position: relative;
+  box-shadow: var(--shadow-xs);
+}
+
+.chat-msg-robot .chat-bubble {
+  background: #ffffff;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-bottom-left-radius: 4px;
+}
+
+.chat-msg-user .chat-bubble {
+  background: #0071e3;
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+
+.dialog-stream-footer {
+  padding: 14px 20px;
+  background: #ffffff;
+  border-top: 1px solid var(--border-color);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Right Column: Dynamic Extraction Inspector */
+.sim-inspector-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+   2. Matchmaker Workbench Kanban (红娘商机看板)
+   ========================================================================== */
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  min-height: calc(100vh - var(--header-height) - 170px);
+}
+
+.kanban-column {
+  background: #fbfbfd;
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-xs);
+}
+
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.col-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--text-main);
+}
+
+.col-count-badge {
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  background: #ffffff;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-xs);
+}
+
+.kanban-cards-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 2px;
+}
+
+.kanban-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+}
+
+.kanban-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 113, 227, 0.4);
+}
+
+.card-lead-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.card-intent-score-bar {
+  height: 4px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.card-intent-score-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0071e3 0%, #ff2d55 100%);
+  border-radius: var(--radius-full);
+}
+
+/* ==========================================================================
+   3. QA Score Radar & Dimension List (质检与雷达分析)
+   ========================================================================== */
+.qa-dimension-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  background: #fafafc;
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+}
+
+.qa-dimension-item:hover {
+  background: #ffffff;
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-xs);
+}
+
+.qa-dim-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.qa-dim-score {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0071e3;
+}
+
+/* ==========================================================================
+   4. Filter & Action Bars (筛选与控制条)
+   ========================================================================== */
+.filter-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.form-select, .form-input {
+  padding: 7px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  color: var(--text-main);
+  font-size: 12.5px;
+  outline: none;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+}
+
+.form-select:focus, .form-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+/* ==========================================================================
+   5. Stepper in Campaign Creation (任务调度步骤条)
+   ========================================================================== */
+.stepper-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.stepper-nav::before {
+  content: '';
+  position: absolute;
+  top: 17px;
+  left: 36px;
+  right: 36px;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.08);
+  z-index: 1;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  padding: 0 12px;
+}
+
+.step-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f5f5f7;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.step-item.active .step-circle {
+  background: #0071e3;
+  border-color: #0071e3;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.35);
+}
+
+.step-item.completed .step-circle {
+  background: #34c759;
+  border-color: #34c759;
+  color: #ffffff;
+}
+
+.step-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.step-item.active .step-label {
+  color: #0071e3;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Compact Lead Table Styles
+   ========================================================================== */
+.lead-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lead-avatar-bubble {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lead-avatar-bubble.female {
+  background: linear-gradient(135deg, var(--rose-500), var(--rose-600));
+}
+
+.lead-meta {
+  min-width: 0;
+}
+
+.lead-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lead-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.lead-gender-age {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.lead-sub-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+/* Status pill with dot */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status-pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.status-wecom_added {
+  background: var(--emerald-50);
+  color: var(--emerald-700);
+}
+.status-wecom_added .status-pill-dot { background: var(--emerald-500); }
+
+.status-claimed {
+  background: var(--violet-50);
+  color: var(--violet-700);
+}
+.status-claimed .status-pill-dot { background: var(--violet-500); }
+
+.status-connected {
+  background: var(--blue-50);
+  color: var(--blue-700);
+}
+.status-connected .status-pill-dot { background: var(--blue-500); }
+
+.status-calling {
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+.status-calling .status-pill-dot { background: var(--primary-500); animation: pulse 1.5s infinite; }
+
+.status-pending {
+  background: var(--amber-50);
+  color: var(--amber-700);
+}
+.status-pending .status-pill-dot { background: var(--amber-500); }
+
+.status-refused {
+  background: var(--slate-100);
+  color: var(--slate-600);
+}
+.status-refused .status-pill-dot { background: var(--slate-400); }
+
+/* Tier pills */
+.tier-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tier-s {
+  background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+  color: #be185d;
+  box-shadow: inset 0 0 0 1px rgba(190, 24, 93, 0.12);
+}
+
+.tier-a {
+  background: var(--primary-50);
+  color: var(--primary-700);
+  box-shadow: inset 0 0 0 1px rgba(14, 116, 144, 0.12);
+}
+
+.tier-b {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.12);
+}
+
+.tier-c {
+  background: var(--slate-100);
+  color: var(--slate-600);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.15);
+}
+
+.tier-d {
+  background: var(--slate-100);
+  color: var(--slate-500);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.1);
+}
+
+/* Override simulator to be more compact */
+.sim-container {
+  grid-template-columns: 300px 1fr 280px;
+  gap: var(--content-gap);
+}
+
+.sim-phone-frame {
+  height: 580px;
+  padding: 12px 10px;
+  border-radius: 36px;
+}
+
+/* Kanban compact */
+.kanban-column {
+  min-width: 220px;
+}
+
+.kanban-card {
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+/* Fix search box */
+.search-box input {
+  height: 28px;
+  line-height: 28px;
+}
+
+.search-box i {
+  width: 13px;
+  height: 13px;
+}
+

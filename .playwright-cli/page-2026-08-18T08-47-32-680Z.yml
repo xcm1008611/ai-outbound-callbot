@@ -1,0 +1,65 @@
+- generic [ref=e2]:
+  - generic [ref=e6]:
+    - link [ref=e7] [cursor=pointer]:
+      - /url: https://v.qq.com/
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - link "电视剧" [ref=e31] [cursor=pointer]:
+          - /url: //v.qq.com/channel/tv
+        - link "电影" [ref=e33] [cursor=pointer]:
+          - /url: //v.qq.com/channel/movie
+        - link "综艺" [ref=e35] [cursor=pointer]:
+          - /url: //v.qq.com/channel/variety
+        - link "动漫" [ref=e37] [cursor=pointer]:
+          - /url: //v.qq.com/channel/cartoon
+        - link "少儿" [ref=e39] [cursor=pointer]:
+          - /url: //v.qq.com/channel/child
+        - link "短剧" [ref=e41] [cursor=pointer]:
+          - /url: //v.qq.com/channel/mini_series
+        - link "纪录片" [ref=e43] [cursor=pointer]:
+          - /url: //v.qq.com/channel/doco
+      - generic [ref=e45] [cursor=pointer]: 全部
+    - generic [ref=e51]:
+      - textbox [ref=e53]
+      - button [ref=e54] [cursor=pointer]:
+        - img "矩形备份 5" [ref=e56]
+    - generic [ref=e64]:
+      - link "会员专区" [ref=e66] [cursor=pointer]:
+        - /url: https://film.qq.com/
+      - link "游戏" [ref=e71] [cursor=pointer]:
+        - /url: https://iwan.video.qq.com/game-community/game-center/home?ztid=km53eytfwg&iwankey=iwan_pc_channel-10029421_rpk
+      - generic "快捷访问" [ref=e79] [cursor=pointer]
+      - link "历史" [ref=e84] [cursor=pointer]:
+        - /url: https://v.qq.com/biu/u/history/
+      - link "创作" [ref=e90] [cursor=pointer]:
+        - /url: https://cc.v.qq.com
+      - generic [ref=e95]: 应用
+      - generic [ref=e108] [cursor=pointer]:
+        - generic [ref=e109]: 下载客户端
+        - generic [ref=e110]: 播放更流畅
+  - generic [ref=e111]:
+    - generic [ref=e114]:
+      - generic: 腾讯视频
+      - generic [ref=e116]:
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - generic "暂停/播放" [ref=e122] [cursor=pointer]
+            - generic "下一个"
+          - generic [ref=e125] [cursor=pointer]:
+            - generic:
+              - generic: 00:00
+              - generic: /
+              - generic: 00:00
+          - generic [ref=e129]:
+            - generic "倍速"
+            - generic "音量" [ref=e131] [cursor=pointer]
+            - generic "设置" [ref=e137]:
+              - generic [ref=e138] [cursor=pointer]
+            - generic "网页全屏" [ref=e141] [cursor=pointer]
+            - generic "全屏" [ref=e144] [cursor=pointer]
+        - text: ": : : : : : : : : : : : : : : : :"
+        - generic: "?"
+    - generic [ref=e184]:
+      - generic "加追" [ref=e185]
+      - generic "下载" [ref=e187]
+      - generic "更多" [ref=e189]

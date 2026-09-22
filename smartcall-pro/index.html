@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知缘 AI · 智能红娘外呼全流程运营平台 (SmartCall Pro)</title>
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Application Stylesheets -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/views.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <!-- Brand Logo -->
+      <div class="brand-container">
+        <div class="brand-logo-icon">
+          <i data-lucide="sparkles"></i>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">知缘 AI 红娘外呼</div>
+          <div class="brand-version">SmartCall Pro v4.8</div>
+        </div>
+      </div>
+
+      <!-- Quick Demo Launcher -->
+      <div style="padding:8px 12px 10px;">
+        <button class="btn btn-primary btn-sm" style="width:100%;gap:6px;display:inline-flex;align-items:center;justify-content:center;" onclick="App.startFullDemo()">
+          <i data-lucide="play-circle" style="width:13px;height:13px;"></i>
+          沉浸式全流程演示
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <!-- Injected dynamically -->
+      </nav>
+
+      <!-- Sidebar Footer Status (Demo Environment) -->
+      <div class="sidebar-footer">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:10.5px;color:var(--text-muted);">运行环境</span>
+          <span class="badge badge-warning" style="font-size:10px;display:inline-flex;align-items:center;gap:3px;"><span class="pulse-dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--amber-500);"></span>演示环境</span>
+        </div>
+        <div style="font-size:10px;color:var(--text-muted);line-height:1.5;margin-bottom:5px;">所有数据均为模拟，接口与线路待POC验证</div>
+        <div style="font-size:9.5px;font-family:var(--font-mono);color:var(--text-muted);opacity:0.7;">SmartCall Pro · v4.8-demo</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="search-box" style="width:280px;cursor:pointer;" onclick="App.openCommandPalette()">
+            <i data-lucide="search" style="width:13px;height:13px;"></i>
+            <input type="text" placeholder="搜索客户、任务、话术" readonly style="cursor:pointer;font-size:12px;">
+            <span style="font-size:10px;padding:1px 5px;line-height:16px;border-radius:3px;background:var(--ink-100);color:var(--text-muted);font-family:var(--font-mono);">⌘K</span>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:6px;">
+          <!-- Tenant Switcher -->
+          <button class="btn btn-outline btn-sm" style="background:var(--ink-50);border-color:transparent;padding:0 10px;height:32px;font-size:12px;display:inline-flex;align-items:center;gap:5px;" onclick="App.switchTenant(App.currentTenant === '杭州旗舰总店' ? '上海陆家嘴会所' : '杭州旗舰总店')">
+            <i data-lucide="building-2" style="width:13px;height:13px;color:var(--brand-500);"></i>
+            <span id="current-tenant-label" style="font-weight:500;">杭州旗舰总店</span>
+            <i data-lucide="chevron-down" style="width:11px;height:11px;color:var(--text-muted);"></i>
+          </button>
+
+          <!-- Role Switcher -->
+          <button class="btn btn-outline btn-sm" style="background:var(--ink-50);border-color:transparent;padding:0 10px;height:32px;font-size:12px;display:inline-flex;align-items:center;gap:5px;" onclick="App.switchRole(App.currentRole === 'admin' ? 'matchmaker' : App.currentRole === 'matchmaker' ? 'qa_manager' : 'admin')">
+            <i data-lucide="user-cog" style="width:13px;height:13px;color:var(--rose-500);"></i>
+            <span id="current-role-label" style="font-weight:500;">运营总监</span>
+          </button>
+
+          <!-- Notification -->
+          <button class="btn btn-ghost btn-sm" style="width:32px;height:32px;padding:0;position:relative;" onclick="App.showToast('您有 3 条新的 S级 高意向线索已流入待办', 'info')">
+            <i data-lucide="bell" style="width:15px;height:15px;"></i>
+            <span style="position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;background:var(--rose-500);"></span>
+          </button>
+
+          <!-- Profile -->
+          <div style="display:flex;align-items:center;gap:7px;padding-left:8px;margin-left:2px;border-left:1px solid var(--border-color);">
+            <div class="avatar" style="width:28px;height:28px;font-size:11px;">林</div>
+            <div style="display:flex;flex-direction:column;text-align:left;line-height:1.2;">
+              <span style="font-size:12px;font-weight:600;color:var(--text-main);">林总监</span>
+              <span style="font-size:10px;color:var(--text-muted);">运营决策中心</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- View Content Mount -->
+      <main class="content-body" id="main-content"></main>
+    </div>
+  </div>
+
+  <!-- Global Modal -->
+  <div id="modal-backdrop" class="modal-backdrop" onclick="App.closeModal()"></div>
+
+  <!-- Toast Mount -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Lead Drawer Mount -->
+  <div id="lead-drawer-container" class="drawer-backdrop"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/mock-data.js"></script>
+  <script src="assets/js/views/dashboard.js"></script>
+  <script src="assets/js/views/simulator.js"></script>
+  <script src="assets/js/views/campaigns.js"></script>
+  <script src="assets/js/views/leads.js"></script>
+  <script src="assets/js/views/matchmaker.js"></script>
+  <script src="assets/js/views/qa.js"></script>
+  <script src="assets/js/views/reports.js"></script>
+  <script src="assets/js/views/rules.js"></script>
+  <script src="assets/js/views/lead-drawer.js"></script>
+  <script src="assets/js/views/campaign-monitor.js"></script>
+  <script src="assets/js/views/calls.js"></script>
+  <script src="assets/js/views/flows.js"></script>
+  <script src="assets/js/views/compliance.js"></script>
+  <script src="assets/js/views/knowledge.js"></script>
+  <script src="assets/js/views/lines.js"></script>
+  <script src="assets/js/views/agents.js"></script>
+  <script src="assets/js/views/integrations.js"></script>
+  <script src="assets/js/views/scoring.js"></script>
+  <script src="assets/js/views/audit.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

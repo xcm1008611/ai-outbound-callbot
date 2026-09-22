@@ -1,0 +1,354 @@
+/* SmartCall Pro - Animation System
+ * RULE: All timing, easing, and stagger logic preserved.
+ * Only visual strength (shadow/transform magnitude) adjusted to match refined static style.
+ */
+
+/* ==========================
+   CORE EASING FUNCTIONS (preserved)
+   ========================== */
+:root {
+  --ease-apple-smooth: cubic-bezier(0.28, 0.11, 0.32, 1);
+  --ease-apple-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-apple-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-apple-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  --duration-instant: 120ms;
+  --duration-fast: 220ms;
+  --duration-base: 350ms;
+  --duration-smooth: 550ms;
+  --duration-elegant: 850ms;
+}
+
+/* ==========================
+   ENTRANCE KEYFRAMES (preserved)
+   ========================== */
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes scaleFade {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==========================
+   STAGGERED CONTAINER SYSTEM (preserved timing)
+   ========================== */
+
+.stagger-container > * {
+  animation: fadeInScale var(--duration-smooth) var(--ease-apple-out) backwards;
+}
+
+.stagger-container > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-container > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-container > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-container > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-container > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-container > *:nth-child(6) { animation-delay: 300ms; }
+.stagger-container > *:nth-child(7) { animation-delay: 360ms; }
+.stagger-container > *:nth-child(8) { animation-delay: 420ms; }
+.stagger-container > *:nth-child(9) { animation-delay: 480ms; }
+.stagger-container > *:nth-child(10) { animation-delay: 540ms; }
+
+.data-table tbody.stagger-container > tr {
+  animation: slideUpFade var(--duration-base) var(--ease-apple-out) backwards;
+}
+
+.data-table tbody.stagger-container > tr:nth-child(1) { animation-delay: 0ms; }
+.data-table tbody.stagger-container > tr:nth-child(2) { animation-delay: 40ms; }
+.data-table tbody.stagger-container > tr:nth-child(3) { animation-delay: 80ms; }
+.data-table tbody.stagger-container > tr:nth-child(4) { animation-delay: 120ms; }
+.data-table tbody.stagger-container > tr:nth-child(5) { animation-delay: 160ms; }
+.data-table tbody.stagger-container > tr:nth-child(6) { animation-delay: 200ms; }
+.data-table tbody.stagger-container > tr:nth-child(7) { animation-delay: 240ms; }
+.data-table tbody.stagger-container > tr:nth-child(8) { animation-delay: 280ms; }
+
+/* ==========================
+   VIEW TRANSITION (preserved)
+   ========================== */
+
+.view-fade-enter {
+  animation: gentleReveal var(--duration-elegant) var(--ease-apple-smooth);
+}
+
+/* ==========================
+   HOVER & INTERACTION - Refined visual strength
+   Logic preserved: translateY lift + shadow increase, same timing
+   ========================== */
+
+.card {
+  transition: transform var(--duration-fast) var(--ease-apple-smooth),
+              box-shadow var(--duration-fast) var(--ease-apple-smooth),
+              border-color var(--duration-fast) var(--ease-apple-smooth);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-light);
+}
+
+.metric-card {
+  transition: transform var(--duration-fast) var(--ease-apple-smooth),
+              box-shadow var(--duration-fast) var(--ease-apple-smooth),
+              border-color var(--duration-fast) var(--ease-apple-smooth);
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+.btn {
+  transition: all var(--duration-instant) var(--ease-apple-smooth);
+  transform-origin: center;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.data-table tbody tr {
+  transition: background-color var(--duration-fast) var(--ease-apple-smooth);
+}
+
+/* ==========================
+   MICRO-INTERACTIONS (preserved)
+   ========================== */
+
+@keyframes pillPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.status-pill-dot {
+  animation: pillPulse 2s var(--ease-apple-in-out) infinite;
+}
+
+@keyframes liveGlow {
+  0%, 100% {
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.7), 0 0 16px rgba(239, 68, 68, 0.3);
+  }
+}
+
+.live-badge-dot {
+  animation: liveGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.pulse-dot {
+  animation: pulseAnim 2s infinite;
+}
+
+/* ==========================
+   MODAL ANIMATIONS (preserved)
+   ========================== */
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-card {
+  animation: modalFadeIn var(--duration-smooth) var(--ease-apple-out);
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-backdrop.open {
+  animation: backdropFadeIn var(--duration-base) ease;
+}
+
+.drawer-backdrop.open {
+  animation: backdropFadeIn var(--duration-base) ease;
+}
+
+/* ==========================
+   TOAST ANIMATIONS (preserved)
+   ========================== */
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toast {
+  animation: toastSlideIn var(--duration-base) var(--ease-apple-spring);
+}
+
+/* ==========================
+   FORM FOCUS TRANSITIONS (preserved timing, refined visual)
+   ========================== */
+
+.form-input,
+.form-select,
+.form-textarea,
+.input,
+select,
+textarea {
+  transition: border-color var(--duration-fast) var(--ease-apple-smooth),
+              box-shadow var(--duration-fast) var(--ease-apple-smooth),
+              background var(--duration-fast) var(--ease-apple-smooth);
+}
+
+/* ==========================
+   NAV ITEM TRANSITIONS (preserved)
+   ========================== */
+
+.nav-item {
+  transition: all var(--duration-fast) var(--ease-apple-smooth);
+}
+
+.sidebar-nav-item {
+  transition: all var(--duration-fast) var(--ease-apple-smooth);
+}
+
+/* ==========================
+   CHART BAR ENTRANCE
+   ========================== */
+
+@keyframes barGrow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.bar-chart-bar {
+  transform-origin: bottom;
+  animation: barGrow var(--duration-smooth) var(--ease-apple-out) backwards;
+}
+
+/* ==========================
+   FUNNEL BAR ENTRANCE
+   ========================== */
+
+@keyframes funnelReveal {
+  from {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.funnel-bar {
+  transform-origin: center;
+  animation: funnelReveal var(--duration-smooth) var(--ease-apple-out) backwards;
+}
+
+.funnel-row:nth-child(1) .funnel-bar { animation-delay: 100ms; }
+.funnel-row:nth-child(2) .funnel-bar { animation-delay: 160ms; }
+.funnel-row:nth-child(3) .funnel-bar { animation-delay: 220ms; }
+.funnel-row:nth-child(4) .funnel-bar { animation-delay: 280ms; }
+.funnel-row:nth-child(5) .funnel-bar { animation-delay: 340ms; }
+
+/* ==========================
+   SPIN ICON (for loading states)
+   ========================== */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+/* ==========================
+   PERFORMANCE OPTIMIZATIONS
+   ========================== */
+
+.card,
+.metric-card,
+.btn,
+.data-table tbody tr,
+.nav-item {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================
+   ACCESSIBILITY
+   ========================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
